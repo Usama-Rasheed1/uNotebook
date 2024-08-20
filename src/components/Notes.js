@@ -3,32 +3,35 @@ import noteContext from '../context/notes/noteContext';
 import Noteitem from './Noteitem';
 import Addnote from './Addnote';
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(noteContext);
   const { notes, getNotes, editNote } = context;
-  const [note, setNote] = useState({ id: "", title: "", description: "", tag: "" });
-  const ref = useRef(null);
-  const refClose = useRef(null);
-
+  
+  
   useEffect(() => {
     getNotes();
     // eslint-disable-next-line
   }, []);
+  
+  const ref = useRef(null);
+  const refClose = useRef(null);
+  const [note, setNote] = useState({ id: "", title: "", description: "", tag: "" });
 
   const updateNote = (currentNote) => {
+    ref.current.click(); // Trigger modal programmatically
     setNote({
       id: currentNote._id,
       title: currentNote.title,
       description: currentNote.description,
       tag: currentNote.tag
     });
-    ref.current.click(); // Trigger modal programmatically
   };
 
   const handleClick = (e) => {
     e.preventDefault();
     editNote(note.id, note.title, note.description, note.tag);
     refClose.current.click(); // Close modal after updating
+    props.showAlert("Updated Successfully", "success")
   };
 
   const onChange = (e) => {
@@ -40,7 +43,7 @@ const Notes = () => {
 
   return (
     <>
-      <Addnote />
+      <Addnote showAlert={props.showAlert}/>
 
       <button ref={ref} type="button" className="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
@@ -51,13 +54,13 @@ const Notes = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" className="close" data-bs-dismiss="modal" ref={refClose} aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
-              <form>
-                <div className="form-group">
+              <form className='my-3'>
+                <div className="mb-3">
                   <label htmlFor="etitle">Title</label>
                   <input
                     type="text"
@@ -68,7 +71,7 @@ const Notes = () => {
                     onChange={onChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                   <label htmlFor="edescription">Description</label>
                   <input
                     type="text"
@@ -79,7 +82,7 @@ const Notes = () => {
                     onChange={onChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                   <label htmlFor="etag">Tag</label>
                   <input
                     type="text"
@@ -93,7 +96,7 @@ const Notes = () => {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" ref={refClose} className="btn btn-secondary" onClick={handleClick}>Close</button>
+              <button type="button" ref={refClose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button disabled={note.title.length<5 || note.description.length < 5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
             </div>
           </div>
@@ -106,7 +109,7 @@ const Notes = () => {
         {notes.length===0 && 'No Notes to display'}
         </div>
         {notes.map((note) => (
-          <Noteitem key={note._id} updateNote={updateNote} note={note} />
+          <Noteitem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert} />
         ))}
       </div>
     </>
