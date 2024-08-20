@@ -34,7 +34,7 @@ const Login = () => {
           ...cred,
           [e.target.name]: e.target.value
         });
-      };
+    };
   return (
     <form onSubmit={handleSubmit}>
     <div className="form-group">
@@ -46,7 +46,7 @@ const Login = () => {
         <label htmlFor="password">Password</label>
         <input type="password" value={cred.password} onChange={onChange} className="form-control" id="password" name="password" placeholder="Password"/>
     </div>
-    <button type="submit" className="btn btn-primary">Submit</button>
+    <button type="submit" className="btn btn-primary mt-3">Submit</button>
     </form>
   )
 }
