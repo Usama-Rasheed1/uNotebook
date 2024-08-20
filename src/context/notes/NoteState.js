@@ -19,27 +19,6 @@ const NoteState = (props)=>{
         setNotes(json);
       }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       // Add a Note
       const addNote = async (title, description, tag)=>{
         // TODO: API call
@@ -51,18 +30,9 @@ const NoteState = (props)=>{
             },
             body: JSON.stringify({title, description, tag})
         });
-        const json = await response.json(); 
-        console.log(json);
+        const json = await response.json();
 
-        const note = {
-            "_id": "66c392351014940d410548a5",
-            "user": "66bebaf36ae379a9d5194c97",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2024-08-19T18:43:01.047Z",
-            "__v": 0
-          };
+        const note = json;
         setNotes(notes.concat(note))
       }
       
@@ -70,6 +40,7 @@ const NoteState = (props)=>{
     const deleteNote = async (id) => {
         // API call to delete the note
         const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+          
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +77,6 @@ const NoteState = (props)=>{
           }
       
           const json = await response.json();
-          console.log(json);
       
           // Update the local state with the new note data
           setNotes(notes.map(note =>

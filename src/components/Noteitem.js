@@ -20,7 +20,7 @@ const Noteitem = (props) => {
                 <div className="card-body">
                     <div className='d-flex align-items-center'>
                         <h5 className="card-title">{note.title}</h5>
-                        <i className="fa-regular fa-trash-can mx-2" onClick={handleDelete}></i>
+                        <i className="fa-regular fa-trash-can mx-2" onClick={handleDelete} note={note}></i>
                         <i className="fa-regular fa-pen-to-square mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={handleUpdate}></i>
                     </div>
                     <p className="card-text">{note.description}</p>
