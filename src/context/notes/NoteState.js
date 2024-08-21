@@ -8,11 +8,12 @@ const NoteState = (props)=>{
 
     // Get all Notes
     const getNotes = async ()=>{
+
         const response = await fetch(`${host}/api/notes/fetchallnotes`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiZWJhZjM2YWUzNzlhOWQ1MTk0Yzk3In0sImlhdCI6MTcyMzc3OTc5MH0.6lLDcITAyMnI7iQwkLB70169Pz7GfPvyjRhMPZyFlYQ'
+                'auth-token': localStorage.getItem('token')
             }
         });
         const json = await response.json();
@@ -26,7 +27,7 @@ const NoteState = (props)=>{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiZWJhZjM2YWUzNzlhOWQ1MTk0Yzk3In0sImlhdCI6MTcyMzc3OTc5MH0.6lLDcITAyMnI7iQwkLB70169Pz7GfPvyjRhMPZyFlYQ'
+                'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({title, description, tag})
         });
@@ -44,7 +45,7 @@ const NoteState = (props)=>{
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiZWJhZjM2YWUzNzlhOWQ1MTk0Yzk3In0sImlhdCI6MTcyMzc3OTc5MH0.6lLDcITAyMnI7iQwkLB70169Pz7GfPvyjRhMPZyFlYQ'
+                'auth-token': localStorage.getItem('token')
             }
         });
 
@@ -67,9 +68,9 @@ const NoteState = (props)=>{
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
-              'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiZWJhZjM2YWUzNzlhOWQ1MTk0Yzk3In0sImlhdCI6MTcyMzc3OTc5MH0.6lLDcITAyMnI7iQwkLB70169Pz7GfPvyjRhMPZyFlYQ' // Make sure to replace with a valid token or use a secure method for token management
+              'auth-token': localStorage.getItem('token')
             },
-            body: JSON.stringify({ title, description, tag }) // Pass a single object to JSON.stringify
+            body: JSON.stringify({ title, description, tag })
           });
       
           if (!response.ok) {
@@ -77,6 +78,8 @@ const NoteState = (props)=>{
           }
       
           const json = await response.json();
+          console.log(json);
+          
       
           // Update the local state with the new note data
           setNotes(notes.map(note =>

@@ -8,7 +8,7 @@ const Signup = (props) => {
 
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        const {name, email, password} = cred 
+        const {name, email, password} = cred
         const host = "http://localhost:5000"
         const response = await fetch(`${host}/api/auth/createuser`, {
             method: 'POST',
@@ -23,8 +23,8 @@ const Signup = (props) => {
         if(json.success){
             //redirect
             localStorage.setItem('token', json.authtoken);
-            navigate("/");
             props.showAlert("Account Created Successfully ", "success")
+            navigate("/login");
         }
         else{
             props.showAlert("Invalid Credentials", "danger")
@@ -39,27 +39,29 @@ const Signup = (props) => {
 
    
   return (
-    <div className='container'>
+    <div className='container mt-2'>
+        <h1 className='text-primary'><strong>Welcome To uNotebook</strong></h1>
+        <h2 className='mb-4'>Create a new account with <i>uNotebook</i></h2>
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="name">your Name</label>
-                <input type="text" className="form-control" id="name" name="name" onChange={onChange} placeholder="Enter name" minLength={3} required/>
+            <div className="form-group mb-2">
+                <label htmlFor="name">Your Name</label>
+                <input type="text" className="form-control" autoComplete="name" id="name" name="name" onChange={onChange} placeholder="Enter name" minLength={3} required/>
             </div>
-            <div className="form-group">
-                <label htmlFor="email">Email address</label>
-                <input type="email" className="form-control" id="email" name="email" onChange={onChange} aria-describedby="emailHelp" placeholder="Enter email" required/>
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div className="form-group mb-2">
+                <label htmlFor="email">Email Address</label>
+                <input type="email" className="form-control" autoComplete="email" id="email" name="email" onChange={onChange} aria-describedby="emailHelp" placeholder="Enter email" required/>
+                <small id="emailHelp" className="form-text text-muted">Make sure to add a valid email address.</small>
             </div>
-            <div className="form-group">
+            <div className="form-group mb-2">
                 <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" name="password" onChange={onChange} placeholder="Password" minLength={5} required/>
+                <input type="password" className="form-control" autoComplete="new-password" id="password" name="password" onChange={onChange} placeholder="Password" minLength={5} required/>
             </div>
             <div className="form-group">
                 <label htmlFor="cpassword">Confirm Password</label>
-                <input type="password" className="form-control" id="cpassword" name="cpassword" onChange={onChange} placeholder="Password" minLength={5} required/>
+                <input type="password" className="form-control" autoComplete="new-password" id="cpassword" name="cpassword" onChange={onChange} placeholder="Password" minLength={5} required/>
             </div>
 
-            <button type="submit" className="btn btn-primary mt-3">Submit</button>
+            <button type="submit" className="btn btn-primary mt-4">Create Account</button>
         </form>
     </div>
   )

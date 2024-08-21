@@ -17,13 +17,14 @@ const Login = (props) => {
             body: JSON.stringify({email: cred.email, password: cred.password})
         });
         const json = await response.json()
-        console.log(json);
 
         if(json.success){
             //redirect
-            localStorage.setItem('token', json.authtoken);
-            navigate("/");
+            localStorage.setItem('token', json.authToken);
+            // console.log(localStorage.getItem('token'));
+            
             props.showAlert("Logged In Successfully ", "success")
+            navigate("/");
         }
         else{
             props.showAlert("Invalid Details", "danger")
@@ -36,18 +37,22 @@ const Login = (props) => {
         });
     };
   return (
-    <form onSubmit={handleSubmit}>
-    <div className="form-group">
-        <label htmlFor="Email">Email address</label>
-        <input type="email" value={cred.email} onChange={onChange} className="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email"/>
-        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div className='container mt-4'>
+        <h1 className='text-primary'><strong>Welcome Back</strong></h1>
+        <h2 className='mb-4'>Login to continue with <i>uNotebook</i></h2>
+        <form onSubmit={handleSubmit}>
+            <div className="form-group mt-4 mb-3">
+                <label htmlFor="Email">Email address</label>
+                <input type="email" value={cred.email} autoComplete="email" onChange={onChange} className="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+                <small id="emailHelp" className="form-text text-muted">Make sure to add a valid email address.</small>
+            </div>
+            <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input type="password" value={cred.password} autoComplete="new-password" onChange={onChange} className="form-control" id="password" name="password" placeholder="Password"/>
+            </div>
+            <button type="submit" className="btn btn-primary mt-4">Login</button>
+        </form>
     </div>
-    <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input type="password" value={cred.password} onChange={onChange} className="form-control" id="password" name="password" placeholder="Password"/>
-    </div>
-    <button type="submit" className="btn btn-primary mt-3">Submit</button>
-    </form>
   )
 }
 
